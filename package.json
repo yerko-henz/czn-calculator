@@ -4,6 +4,7 @@
 	"license": "MIT",
 	"private": true,
 	"version": "0.0.0",
+	"homepage": "https://github.com/yerko-henz/czn-calculator",
 	"scripts": {
 		"dev": "vite --open",
 		"test": "vitest",
