@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import CharacterCard from "../components/CharacterCard";
 import NewCharacterModal from "../components/NewCharacterModal";
 import type { Character } from "@/api/characters";
-import { saveDataTiers } from "@/api/saveDatatiers";
+import { saveDataTiers } from "@/api/saveDataTiers";
 
 export default function Landing() {
   const [selectedCharacters, setSelectedCharacters] = useState<
@@ -11,7 +11,7 @@ export default function Landing() {
   >([null, null, null]);
   const [modalSlot, setModalSlot] = useState<number | null>(null);
   const [maxSaveData, setMaxSaveData] = useState<number>(30);
-  const [selectedTier, setSelectedTier] = useState(saveDataTiers[0]!);
+  const [selectedTier, setSelectedTier] = useState(saveDataTiers[4]!);
 
   const assignCharacter = (index: number, char: Character) => {
     const updated = [...selectedCharacters];

@@ -1,7 +1,7 @@
 export type Rule = {
   key: string;
   label: string;
-  value?: number;
+  value: number;
   calculateValue?: (count: number) => number;
 };
 
