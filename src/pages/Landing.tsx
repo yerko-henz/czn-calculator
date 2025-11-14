@@ -1,9 +1,9 @@
 import { useState } from "react";
-import Navbar from "../components/Navbar";
-import CharacterCard from "../components/CharacterCard";
-import NewCharacterModal from "../components/NewCharacterModal";
 import type { Character } from "@/api/characters";
 import { saveDataTiers } from "@/api/saveDataTiers";
+import CharacterCard from "../components/CharacterCard";
+import Navbar from "../components/Navbar";
+import NewCharacterModal from "../components/NewCharacterModal";
 
 export default function Landing() {
   const [selectedCharacters, setSelectedCharacters] = useState<
@@ -16,6 +16,12 @@ export default function Landing() {
   const assignCharacter = (index: number, char: Character) => {
     const updated = [...selectedCharacters];
     updated[index] = char;
+    setSelectedCharacters(updated);
+  };
+
+  const removeCharacter = (index: number) => {
+    const updated = [...selectedCharacters];
+    updated[index] = null;
     setSelectedCharacters(updated);
   };
 
@@ -38,9 +44,9 @@ export default function Landing() {
             Save Data Tier:
           </label>
           <select
-            value={selectedTier.tier}
-            onChange={(e) => handleTierChange(e.target.value)}
             className="bg-gray-800 border border-purple-500 border-opacity-40 text-gray-100 text-sm rounded-lg px-4 py-2 focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400 transition-colors cursor-pointer"
+            onChange={(e) => handleTierChange(e.target.value)}
+            value={selectedTier.tier}
           >
             {saveDataTiers.map(({ tier }) => (
               <option key={tier} value={tier}>
@@ -48,9 +54,15 @@ export default function Landing() {
               </option>
             ))}
           </select>
-          <span className="text-gray-400 text-sm">
+          <span className="text-gray-400 text-sm flex items-center gap-2">
             Cap:{" "}
             <span className="text-gray-100 font-medium">{maxSaveData}</span>
+            <button
+              className="ml-2 px-2 py-1 bg-opacity-20 border border-red-500 border-opacity-40 text-red-400 rounded hover:bg-opacity-30 transition"
+              onClick={() => setSelectedCharacters([null, null, null])}
+            >
+              Clear All
+            </button>
           </span>
         </div>
       </div>
@@ -69,10 +81,11 @@ export default function Landing() {
         >
           {selectedCharacters.map((character, index) => (
             <CharacterCard
-              key={index}
-              index={index}
               character={character}
+              index={index}
+              key={index}
               onOpenModal={() => setModalSlot(index)}
+              removeCharacter={removeCharacter}
               selectedTier={selectedTier}
             />
           ))}
@@ -81,11 +94,11 @@ export default function Landing() {
 
       {modalSlot !== null && (
         <NewCharacterModal
+          onClose={() => setModalSlot(null)}
           onPick={(char) => {
             assignCharacter(modalSlot, char);
             setModalSlot(null);
           }}
-          onClose={() => setModalSlot(null)}
           taken={selectedCharacters.filter(Boolean) as Character[]}
         />
       )}
