@@ -22,11 +22,13 @@ const container = document.querySelector("#root");
 //   .then(() => {
 if (container) {
   const root = createRoot(container);
+  const basename = "/czn-calculator/";
+
   root.render(
     <StrictMode>
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
-        <BrowserRouter>
+        <BrowserRouter basename={basename}>
           <App />
         </BrowserRouter>
       </QueryClientProvider>
